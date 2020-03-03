@@ -3,19 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>TON dApp Example</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            text-align: center;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .h {
+            font-size: 28px;
+            color: #383a3b;
+            margin-top: 40px
+        }
+
+        .grey {
+            font-size: 17px;
+            color: #67696a;
+            margin-top: 20px
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 40px;
+            border-radius: 30px;
+            background-color: #1d98dc;
+            padding: 10px 44px;
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        a, a:hover, a:active, a:focus {
+            color: #1d98dc;
+        }
+    </style>
 </head>
 <body>
-<h1>TON dApp Example</h1>
-<div>
+
+<div class="h">TON dApp Example</div>
+
+<div class="grey">
     <span>My address is</span>
     <span id="address"></span>
 </div>
-<button id="button">Send Grams via Gram-wallet Plugin</button>
+
+<button id="button" class="button">Send Grams via Gram-wallet Plugin</button>
+
+<div class="grey" style="margin-top: 50px">Code on <a href="https://github.com/toncenter/dapp-example" target="_blank">GitHub</a></div>
+
 <script>
     const provider = window.ton;
 
     if (!provider) {
-        alert('Install Gram-wallet Plugin');
+        alert('Gram-wallet Plugin not installed');
     } else {
         console.log('isGramWallet=', provider.isGramWallet);
 

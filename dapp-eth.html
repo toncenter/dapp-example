@@ -3,19 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>ETH dApp Example</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            text-align: center;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .h {
+            font-size: 28px;
+            color: #383a3b;
+            margin-top: 40px
+        }
+
+        .grey {
+            font-size: 17px;
+            color: #67696a;
+            margin-top: 20px
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 40px;
+            border-radius: 30px;
+            background-color: #1d98dc;
+            padding: 10px 44px;
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        a, a:hover, a:active, a:focus {
+            color: #1d98dc;
+        }
+    </style>
 </head>
 <body>
-<h1>ETH dApp Example</h1>
-<div>
+
+<div class="h">ETH dApp Example</div>
+
+<div class="grey">
     <span>My address is</span>
     <span id="address"></span>
 </div>
-<button id="button">Send ETH via MetaMask</button>
+
+<button id="button" class="button">Send ETH via MetaMask</button>
+
+<div class="grey" style="margin-top: 50px">Code on <a href="https://github.com/toncenter/dapp-example" target="_blank">GitHub</a></div>
+
 <script>
     const provider = window.ethereum;
 
     if (!provider) {
-        alert('Install MetaMask');
+        alert('MetaMask not installed');
     } else {
         console.log('isMetaMask=', provider.isMetaMask);
 
