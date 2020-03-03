@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ETH dApp Example</title>
+</head>
+<body>
+<h1>ETH dApp Example</h1>
+<div>
+    <span>My address is</span>
+    <span id="address"></span>
+</div>
+<button id="button">Send ETH via MetaMask</button>
+<script>
+    const provider = window.ethereum;
+
+    if (!provider) {
+        alert('Install MetaMask');
+    } else {
+        console.log('isMetaMask=', provider.isMetaMask);
+
+        // A) Set provider in web3.js
+        if (window.Web3) {
+            var web3 = new Web3(provider);
+        }
+
+        // B) Use provider object directly
+        document.getElementById('button').addEventListener('click', async () => {
+            try {
+                // Request account access if needed
+                const accounts = (await provider.send('eth_requestAccounts')).result;
+                // Accounts now exposed, use them
+                const account = accounts[0] // We currently only ever provide a single account,
+                                            // but the array gives us some room to grow.
+                showAccountAddress(account);
+                // Send ETH
+                provider.send(
+                    'eth_sendTransaction',
+                    [{
+                        from: account,
+                        to: account,
+                        gas: "0x76c0", // 30400
+                        gasPrice: '0x9184e72a',
+                        value: '0x9184e72a000', // 10000000000000 wei = 0.00001 ETH
+                        data: '0x123'
+                    }]
+                );
+            } catch (error) {
+                // User denied or Error
+                console.log(error);
+            }
+        });
+
+        provider.on('accountsChanged', function (accounts) {
+            console.log('accountsChanged', accounts);
+            const account = accounts[0];
+            showAccountAddress(account);
+        });
+
+        function showAccountAddress(address) {
+            document.getElementById('address').innerText = address;
+        }
+    }
+</script>
+</body>
+</html>

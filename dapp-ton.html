@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TON dApp Example</title>
+</head>
+<body>
+<h1>TON dApp Example</h1>
+<div>
+    <span>My address is</span>
+    <span id="address"></span>
+</div>
+<button id="button">Send Grams via Gram-wallet Plugin</button>
+<script>
+    const provider = window.ton;
+
+    if (!provider) {
+        alert('Install Gram-wallet Plugin');
+    } else {
+        console.log('isGramWallet=', provider.isGramWallet);
+
+        // A) Set provider in TonWeb.js
+        if (window.TonWeb) {
+            var tonweb = new TonWeb(provider);
+        }
+
+        // B) Use provider object directly
+        document.getElementById('button').addEventListener('click', async () => {
+            try {
+                // Request account access if needed
+                const accounts = await provider.send('ton_requestAccounts');
+                // Accounts now exposed, use them
+                const account = accounts[0] // We currently only ever provide a single account,
+                                            // but the array gives us some room to grow.
+                showAccountAddress(account);
+                // Send Grams
+                provider.send(
+                    'ton_sendTransaction',
+                    [{
+                        from: account,
+                        to: account,
+                        value: '10000', // 10000 nanograms = 0.00001 Grams
+                        data: 'comment'
+                    }]
+                );
+            } catch (error) {
+                // User denied or Error
+                console.log(error);
+            }
+        });
+
+        provider.on('accountsChanged', function (accounts) {
+            console.log('accountsChanged', accounts);
+            const account = accounts[0];
+            showAccountAddress(account);
+        });
+
+        function showAccountAddress(address) {
+            document.getElementById('address').innerText = address;
+        }
+    }
+</script>
+</body>
+</html>
