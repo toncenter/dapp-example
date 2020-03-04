@@ -7,7 +7,7 @@ TON dApp example using [Gram-wallet Plugin](https://gram-wallet.org/plugin).
 Gram-wallet Plugin API is very similar to [new Metamask API](https://metamask.github.io/metamask-docs/guide/ethereum-provider.html#new-api), based on [eip-1193](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1193.md), 
 [eip-1102](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1102.md).
 
-For simple migration we put two examples of dapps to this repository: TON dApp for Gram-wallet Plugin, Ethereum dApp for Metamask.
+For simple migration we put two examples of dapps to this repository: TON dApp for Gram-wallet Plugin ([try](https://gram-wallet.org/dapp-ton)), Ethereum dApp for Metamask ([try](https://gram-wallet.org/dapp-eth)).
 
 ## API
 
