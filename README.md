@@ -13,7 +13,7 @@ For simple migration we put two examples of dapps to this repository: TON dApp f
 
 Gram-wallet Plugin injects in page `window.ton` object.
 
-Plugin doesn't inject [TonWeb](https://github.com/toncenter/tonweb) library, but you can include it by yourself, and use `ton` as provider: `new TonWeb(window.ton)`
+Plugin doesn't inject [TonWeb](https://github.com/toncenter/tonweb) library, but you can include it by yourself; In the future you will be able to use `ton` as provider: `new TonWeb(window.ton)`
 
 ### Detecting Gram-wallet Plugin
 
