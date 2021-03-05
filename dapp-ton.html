@@ -14,7 +14,7 @@
     <span id="address"></span>
 </div>
 
-<button id="button" class="button">Send Grams via Gram-wallet Plugin</button>
+<button id="button" class="button">Send TON coins via TON Wallet Plugin</button>
 
 <div class="grey" style="margin-top: 50px">Code on <a href="https://github.com/toncenter/dapp-example" target="_blank">GitHub</a></div>
 
@@ -22,9 +22,9 @@
     const provider = window.ton;
 
     if (!provider) {
-        alert('Gram-wallet Plugin not installed');
+        alert('TON Wallet Plugin not installed');
     } else {
-        console.log('isGramWallet=', provider.isGramWallet);
+        console.log('isTonWallet=', provider.isTonWallet);
 
         // A) Set provider in TonWeb.js
         if (window.TonWeb) {
@@ -40,13 +40,13 @@
                 const account = accounts[0] // We currently only ever provide a single account,
                                             // but the array gives us some room to grow.
                 showAccountAddress(account);
-                // Send Grams
+                // Send TONs
                 provider.send(
                     'ton_sendTransaction',
                     [{
                         from: account,
                         to: 'EQA0i8-CdGnF_DhUHHf92R1ONH6sIA9vLZ_WLcCIhfBBXwtG',
-                        value: '10000', // 10000 nanograms = 0.00001 Grams
+                        value: '10000', // 10000 nanotons = 0.00001 TONs
                         data: 'comment'
                     }]
                 );
