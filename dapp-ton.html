@@ -15,7 +15,7 @@
 </div>
 
 <div>
-    <button id="button" class="button">Send TON coins via TON Wallet Plugin</button>
+    <button id="button" class="button">Send Toncoins via TON Wallet Plugin</button>
 </div>
 
 <div>
@@ -61,7 +61,8 @@
                     [{
                         to: 'EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N', // TON Foundation
                         value: '10000', // 10000 nanotons = 0.00001 TONs
-                        data: 'dapp test'
+                        data: 'dapp test',
+                        dataType: 'text'
                     }]
                 );
             } catch (error) {
@@ -74,7 +75,7 @@
             try {
                 await connect();
 
-                // Send TONs
+                // Sign custom hex
                 const signature = await provider.send(
                     'ton_rawSign',
                     [{
