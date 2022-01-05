@@ -14,9 +14,19 @@
     <span id="address"></span>
 </div>
 
-<button id="button" class="button">Send TON coins via TON Wallet Plugin</button>
+<div>
+    <button id="button" class="button">Send TON coins via TON Wallet Plugin</button>
+</div>
 
-<div class="grey" style="margin-top: 50px">Code on <a href="https://github.com/toncenter/dapp-example" target="_blank">GitHub</a></div>
+<div>
+    <button id="signButton" class="button">Sign custom data</button>
+</div>
+
+<div class="grey" style="margin-top: 50px">
+    Code on <a href="https://github.com/toncenter/dapp-example" target="_blank">GitHub</a>
+</div>
+
+<script type="text/javascript" src="libs/tonweb-0.0.25.js"></script>
 
 <script>
     const provider = window.ton;
@@ -26,30 +36,52 @@
     } else {
         console.log('isTonWallet=', provider.isTonWallet);
 
-        // A) Set provider in TonWeb.js
-        if (window.TonWeb) {
-            var tonweb = new TonWeb(provider);
+        // A) Use tonweb
+
+        var tonweb = new TonWeb();
+
+        // B) Use extension
+
+        const connect = async () => {
+            // Request account access if needed
+            const accounts = await provider.send('ton_requestAccounts');
+            // Accounts now exposed, use them
+            const account = accounts[0] // We currently only ever provide a single account,
+                                        // but the array gives us some room to grow.
+            showAccountAddress(account);
         }
 
-        // B) Use provider object directly
         document.getElementById('button').addEventListener('click', async () => {
             try {
-                // Request account access if needed
-                const accounts = await provider.send('ton_requestAccounts');
-                // Accounts now exposed, use them
-                const account = accounts[0] // We currently only ever provide a single account,
-                                            // but the array gives us some room to grow.
-                showAccountAddress(account);
+                await connect();
+
                 // Send TONs
                 provider.send(
                     'ton_sendTransaction',
                     [{
-                        from: account,
-                        to: 'EQA0i8-CdGnF_DhUHHf92R1ONH6sIA9vLZ_WLcCIhfBBXwtG',
+                        to: 'EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N', // TON Foundation
                         value: '10000', // 10000 nanotons = 0.00001 TONs
-                        data: 'comment'
+                        data: 'dapp test'
                     }]
                 );
+            } catch (error) {
+                // User denied or Error
+                console.log(error);
+            }
+        });
+
+        document.getElementById('signButton').addEventListener('click', async () => {
+            try {
+                await connect();
+
+                // Send TONs
+                const signature = await provider.send(
+                    'ton_rawSign',
+                    [{
+                        data: 'ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789'
+                    }]
+                );
+                console.log('signature is ' + signature);
             } catch (error) {
                 // User denied or Error
                 console.log(error);
