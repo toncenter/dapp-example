@@ -35,71 +35,83 @@
 
     // Use extension
 
-    let provider;
+    const onTonReady = () => {
+        console.log('tonready');
 
-    const connect = async () => {
-        provider = window.ton;
-
-        if (!provider) {
-            alert('TON Wallet Plugin not installed');
-            throw new Error('TON Wallet Plugin not installed');
+        if (!window.tonProtocolVersion || window.tonProtocolVersion < 1) {
+            alert('Please update your TON Wallet Extension');
+            return;
         }
+
+        const provider = window.ton;
         console.log('isTonWallet=', provider.isTonWallet);
 
-        // Request account access if needed
-        const accounts = await provider.send('ton_requestAccounts');
-        // Accounts now exposed, use them
-        const account = accounts[0] // We currently only ever provide a single account,
-                                    // but the array gives us some room to grow.
-        showAccountAddress(account);
+        const connect = async () => {
+            // Request account access if needed
+            const accounts = await provider.send('ton_requestAccounts');
+            // Accounts now exposed, use them
+            const account = accounts[0] // We currently only ever provide a single account,
+                                        // but the array gives us some room to grow.
+            showAccountAddress(account);
+
+            console.log(await provider.send('ton_requestWallets'));
+        }
+
+        document.getElementById('button').addEventListener('click', async () => {
+            try {
+                await connect();
+
+                // Send TONs
+                provider.send(
+                    'ton_sendTransaction',
+                    [{
+                        to: 'EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N', // TON Foundation
+                        value: '10000', // 10000 nanotons = 0.00001 TONs
+                        data: 'dapp test',
+                        dataType: 'text'
+                    }]
+                );
+            } catch (error) {
+                // User denied or Error
+                console.log(error);
+            }
+        });
+
+        document.getElementById('signButton').addEventListener('click', async () => {
+            try {
+                await connect();
+
+                // Sign custom hex
+                const signature = await provider.send(
+                    'ton_rawSign',
+                    [{
+                        data: 'ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789'
+                    }]
+                );
+                console.log('signature is ' + signature);
+            } catch (error) {
+                // User denied or Error
+                console.log(error);
+            }
+        });
+
+        provider.on('accountsChanged', function (accounts) {
+            console.log('accountsChanged', accounts);
+            const account = accounts[0];
+            showAccountAddress(account);
+        });
+
+        function showAccountAddress(address) {
+            document.getElementById('address').innerText = address;
+        }
     }
 
-    document.getElementById('button').addEventListener('click', async () => {
-        try {
-            await connect();
+    // Initialize TON
 
-            // Send TONs
-            provider.send(
-                'ton_sendTransaction',
-                [{
-                    to: 'EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N', // TON Foundation
-                    value: '10000', // 10000 nanotons = 0.00001 TONs
-                    data: 'dapp test',
-                    dataType: 'text'
-                }]
-            );
-        } catch (error) {
-            // User denied or Error
-            console.log(error);
-        }
-    });
-
-    document.getElementById('signButton').addEventListener('click', async () => {
-        try {
-            await connect();
-
-            // Sign custom hex
-            const signature = await provider.send(
-                'ton_rawSign',
-                [{
-                    data: 'ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789'
-                }]
-            );
-            console.log('signature is ' + signature);
-        } catch (error) {
-            // User denied or Error
-            console.log(error);
-        }
-    });
-
-    provider.on('accountsChanged', function (accounts) {
-        console.log('accountsChanged', accounts);
-        const account = accounts[0];
-        showAccountAddress(account);
-    });
-
-    function showAccountAddress(address) {
-        document.getElementById('address').innerText = address;
+    if (window.ton) {
+        onTonReady();
+    } else {
+        window.addEventListener('tonready', () => onTonReady(), false);
     }
 </script>
 </body>
