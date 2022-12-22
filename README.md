@@ -1,13 +1,13 @@
 # dapp-example
 
-TON dApp example using [TON Wallet Plugin](https://tonwallet.me/plugin).
+TON dApp example using [TON Wallet Plugin](https://chrome.google.com/webstore/detail/ton-wallet/nphplpgoakhhjchkkhmiggakijnkhfnd).
 
 ## Similar to new Metamask API 
  
 TON Wallet Plugin API is very similar to [new Metamask API](https://metamask.github.io/metamask-docs/guide/ethereum-provider.html#new-api), based on [eip-1193](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1193.md), 
 [eip-1102](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1102.md).
 
-For simple migration we put two examples of dapps to this repository: TON dApp for TON Wallet Plugin ([try](https://tonwallet.me/dapp-ton)), Ethereum dApp for Metamask ([try](https://tonwallet.me/dapp-eth)).
+For simple migration we put two examples of dapps to this repository: TON dApp for TON Wallet Plugin ([try](https://toncenter.github.io/dapp-example/dapp-ton.html)), Ethereum dApp for Metamask ([try](https://toncenter.github.io/dapp-example/dapp-eth.html)).
 
 ## API
 
