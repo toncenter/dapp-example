@@ -1,3 +1,5 @@
+# ⚠️ This is deprecated API, please use [TON Connect](https://github.com/ton-blockchain/ton-connect)
+
 # dapp-example
 
 TON dApp example using [TON Wallet Plugin](https://chrome.google.com/webstore/detail/ton-wallet/nphplpgoakhhjchkkhmiggakijnkhfnd).
